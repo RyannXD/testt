@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday - Rachel Sandra Mariam</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:'Segoe UI',sans-serif;
+  text-align:center;
+  color:white;
+  background:black;
+  overflow:hidden;
+}
+
+/* BG */
+.bg{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background-size:cover;
+  background-position:center;
+  transition:opacity 1.5s;
+  z-index:-3;
+}
+#bg2{opacity:0;}
+
+.overlay{
+  position:fixed;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.55);
+  z-index:-2;
+}
+
+/* NAVBAR */
+.navbar{
+  position:fixed;
+  top:0;
+  width:100%;
+  padding:10px;
+  backdrop-filter:blur(10px);
+  background:rgba(0,0,0,0.4);
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:5px;
+  z-index:10;
+}
+.navbar a{
+  flex:1 1 auto;
+  min-width:70px;
+  text-align:center;
+  margin:2px;
+  padding:6px 8px;
+  border-radius:20px;
+  background:#ff4e80;
+  color:white;
+  text-decoration:none;
+  font-size:13px;
+}
+
+/* CARD */
+.card{
+  margin-top:120px;
+  padding:20px;
+  width:90%;
+  max-width:500px;
+  margin-left:auto;
+  margin-right:auto;
+  border-radius:20px;
+  background:rgba(0,0,0,0.4);
+}
+
+.profile{
+  width:40%;
+  max-width:150px;
+  border-radius:50%;
+}
+
+.cake{
+  width:60%;
+  max-width:220px;
+  margin:20px;
+}
+
+.btn{
+  padding:10px 20px;
+  border-radius:20px;
+  background:#ff4e80;
+  cursor:pointer;
+}
+
+/* MUSIC */
+.music-btn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  padding:10px 15px;
+  border-radius:20px;
+  background:#ff4e80;
+  cursor:pointer;
+}
+
+/* ENVELOPE */
+.envelope{
+  display:none;
+  position:fixed;
+  bottom:15%;
+  left:50%;
+  transform:translateX(-50%);
+  width:220px;
+  height:140px;
+  perspective:1000px;
+  z-index:5;
+}
+.env-body{
+  width:100%;
+  height:100%;
+  background:white;
+  border-radius:10px;
+}
+.flap{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#ff4e80;
+  clip-path:polygon(0 0,100% 0,50% 60%);
+  transform-origin:top;
+  transition:transform 0.8s ease;
+}
+.envelope.open .flap{
+  transform:rotateX(-180deg);
+}
+
+/* LETTER */
+.letter{
+  display:none;
+  position:fixed;
+  bottom:12%;
+  left:50%;
+  width:90%;
+  max-width:460px;
+  max-height:70vh;
+  overflow-y:auto;
+  background:white;
+  border-radius:18px;
+  padding:25px 20px;
+  color:#2b2b2b;
+  font-size:15px;
+  transform:translateX(-50%) translateY(80px) scale(0.85);
+  opacity:0;
+  transition:all 1s;
+}
+.letter.show{
+  display:block;
+  opacity:1;
+  transform:translateX(-50%) translateY(-60px) scale(1);
+}
+
+.close{
+  position:absolute;
+  right:15px;
+  top:10px;
+  cursor:pointer;
+}
+
+.hint{
+  font-size:12px;
+  margin-top:10px;
+  color:#555;
+}
+
+/* TEXT */
+.char{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(10px);
+  animation:fadeIn 0.5s forwards;
+}
+@keyframes fadeIn{
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* PARTICLE */
+.particle{
+  position:fixed;
+  width:6px;
+  height:6px;
+  background:white;
+  border-radius:50%;
+  opacity:0.5;
+  animation:float 10s linear infinite;
+}
+@keyframes float{
+  from{transform:translateY(100vh);}
+  to{transform:translateY(-10vh);}
+}
+
+/* MOBILE */
+@media (max-width:600px){
+  h1{font-size:22px;}
+  h2{font-size:18px;}
+}
+</style>
+</head>
+
+<body>
+
+<div id="bg1" class="bg"></div>
+<div id="bg2" class="bg"></div>
+<div class="overlay"></div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <a href="index.html">Home</a>
+  <a href="kenangan.html">Kenangan</a>
+  <a href="tentang.html">Tentang</a>
+  <a href="creator.html">Pembuat</a>
+</div>
+
+<!-- CARD -->
+<div class="card">
+<h1>🎉 Selamat Ulang Tahun 🎂</h1>
+<h2>Rachel Sandra Mariam</h2>
+<img src="hbdachel.jpg" class="profile"><br>
+<img src="cake.jpg" class="cake"><br>
+<div class="btn" onclick="start()">Ambil Surat</div>
+</div>
+
+<div class="music-btn" onclick="toggleMusic()">🔊</div>
+
+<div class="envelope" id="env" onclick="openEnvelope()">
+  <div class="env-body">
+    <div class="flap"></div>
+  </div>
+</div>
+
+<div class="letter" id="letter1">
+  <div class="close" onclick="closeLetter()">❌</div>
+  <p id="text1"></p>
+  <div class="hint">klik untuk lanjut</div>
+</div>
+
+<div class="letter" id="letter2">
+  <div class="close" onclick="closeLetter()">❌</div>
+  <p id="text2"></p>
+</div>
+
+<audio id="music" loop>
+  <source src="hbd.mp3">
+</audio>
+
+<script>
+const images=["bg1.jpg","bg2.jpg","bg3.jpg"];
+let i=0, active=1;
+
+function changeBG(){
+  let next = (active===1)?2:1;
+  document.getElementById("bg"+next).style.backgroundImage=`url(${images[i]})`;
+  document.getElementById("bg"+next).style.opacity=1;
+  document.getElementById("bg"+active).style.opacity=0;
+  active=next;
+  i=(i+1)%images.length;
+}
+setInterval(changeBG,5000);
+changeBG();
+
+/* PARTICLE */
+setInterval(()=>{
+  let p=document.createElement("div");
+  p.className="particle";
+  p.style.left=Math.random()*100+"vw";
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),10000);
+},300);
+
+/* AUDIO */
+const music=document.getElementById("music");
+document.addEventListener("click",()=>{if(music.paused) music.play().catch(()=>{})},{once:true});
+function toggleMusic(){music.paused?music.play():music.pause();}
+
+/* STATE */
+let state=0;
+function start(){env.style.display="block";}
+
+function openEnvelope(){
+  env.classList.add("open");
+  setTimeout(()=>{letter1.classList.add("show"); type1(); state=1;},500);
+}
+
+function closeLetter(){
+  letter1.classList.remove("show");
+  letter2.classList.remove("show");
+  env.style.display="none";
+  state=0;
+}
+
+/* TEXT */
+const msg1="HAPPY BIRTHDAYYY 🎉\nSemoga semua impian kamu tercapai ✨";
+const msg2="Makasih ya udah hadir di hidup aku 😊";
+
+function type1(){
+  let i=0;
+  text1.innerHTML="";
+  let int=setInterval(()=>{
+    if(i<msg1.length){
+      let s=document.createElement("span");
+      s.className="char";
+      s.textContent=msg1[i];
+      text1.appendChild(s);
+      i++;
+    }else clearInterval(int);
+  },30);
+}
+
+function type2(){
+  let i=0;
+  text2.innerHTML="";
+  let int=setInterval(()=>{
+    if(i<msg2.length){
+      let s=document.createElement("span");
+      s.className="char";
+      s.textContent=msg2[i];
+      text2.appendChild(s);
+      i++;
+    }else clearInterval(int);
+  },30);
+}
+
+document.addEventListener("click",(e)=>{
+  if(e.target.closest(".btn")||e.target.closest(".envelope")||e.target.closest(".music-btn")) return;
+  if(state===1){
+    letter1.classList.remove("show");
+    letter2.classList.add("show");
+    type2();
+    state=2;
+  }
+});
+</script>
+
+</body>
+</html>
